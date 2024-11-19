@@ -1,5 +1,5 @@
 current directory: /Users/bimakrishna/Documents/M3/transaction/Transaction/vendor/bundle/ruby/2.6.0/gems/ffi-1.17.0/ext/ffi_c
-/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby -I /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0 -r ./siteconf20241119-51416-vx0253.rb extconf.rb
+/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby -I /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0 -r ./siteconf20241119-3634-tgji9u.rb extconf.rb
 checking for ffi_prep_closure_loc() in -lffi... no
 checking for ffi_prep_closure_loc() in -llibffi... no
 checking for ffi_prep_closure_loc() in -llibffi-8... no
@@ -8302,4 +8302,4 @@ Variadic.c:252:58: note: ')' token is here
 compiling ffi.c
 linking shared-object ffi_c.bundle
 ld: warning: search path '/AppleInternal/Library/BuildRoots/4b66fb3c-7dd0-11ef-b4fb-4a83e32a47e1/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX15.1.Internal.sdk/usr/local/lib' not found
-/usr/bin/install -c -m 0755 ffi_c.bundle ./.gem.20241119-51416-1ivvlfj
+/usr/bin/install -c -m 0755 ffi_c.bundle ./.gem.20241119-3634-1o28nl8

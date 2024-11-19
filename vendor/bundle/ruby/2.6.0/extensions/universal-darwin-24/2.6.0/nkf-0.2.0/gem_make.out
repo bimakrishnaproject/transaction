@@ -1,5 +1,5 @@
 current directory: /Users/bimakrishna/Documents/M3/transaction/Transaction/vendor/bundle/ruby/2.6.0/gems/nkf-0.2.0/ext/nkf
-/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby -I /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0 -r ./siteconf20241119-51416-13cdawa.rb extconf.rb
+/System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/bin/ruby -I /System/Library/Frameworks/Ruby.framework/Versions/2.6/usr/lib/ruby/2.6.0 -r ./siteconf20241119-3634-1ques9n.rb extconf.rb
 creating Makefile
 
 current directory: /Users/bimakrishna/Documents/M3/transaction/Transaction/vendor/bundle/ruby/2.6.0/gems/nkf-0.2.0/ext/nkf
@@ -13,4 +13,4 @@ ld: warning: search path '/AppleInternal/Library/BuildRoots/4b66fb3c-7dd0-11ef-b
 
 current directory: /Users/bimakrishna/Documents/M3/transaction/Transaction/vendor/bundle/ruby/2.6.0/gems/nkf-0.2.0/ext/nkf
 make "DESTDIR=" install
-/usr/bin/install -c -m 0755 nkf.bundle ./.gem.20241119-51416-feja0d
+/usr/bin/install -c -m 0755 nkf.bundle ./.gem.20241119-3634-435gpa
