@@ -1,106 +1,88 @@
-import { View, Text, Pressable } from 'react-native';
 import React from 'react';
+import { View, Text, Pressable } from 'react-native';
 import { navigateBack } from '../../Navigators/utils';
+import { Icon } from '../../Components';
+import { styles } from './styles';
+import { TransactionDetailProps } from '../../Interface';
+import TransactionInfoItem from './components/TransactionInfoItem';
+import Clipboard from '@react-native-clipboard/clipboard';
+import { formatCurrency, formatDate } from '../../Utils';
 
-export default function TransactionDetail(props: any) {
+const TransactionDetail: React.FC<TransactionDetailProps> = ({ route }) => {
+  const { data } = route.params;
+
+  const onHandleCopy = () => {
+    Clipboard.setString(data?.id);
+  };
+
   return (
-    <View style={[{ backgroundColor: '#f5faf8', flex: 1, padding: 10 }]}>
-      <View
-        style={{
-          backgroundColor: 'white',
-          borderRadius: 9,
-          elevation: 2,
-          paddingVertical: 5,
-        }}
-      >
-        <View
-          style={{ padding: 15, borderBottomWidth: 1, borderColor: 'grey' }}
-        >
-          <Text style={{ fontWeight: 'bold' }}>
-            ID TRANSAKSI: #FT4923647392643
+    <View style={styles.container}>
+      <View style={styles.card}>
+        <View style={styles.header}>
+          <Text style={styles.transactionIdText}>
+            ID TRANSAKSI: #{data?.id}
           </Text>
+          <Pressable onPress={onHandleCopy}>
+            <Icon name="copy" color="#f16b4b" style={styles.icon} />
+          </Pressable>
         </View>
         <View
           style={[
-            {
-              padding: 15,
-              backgroundColor: 'white',
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              borderBottomWidth: 1,
-              borderColor: 'grey',
-            },
+            styles.header,
+            styles.spaceBetween,
+            { borderColor: '#E6E6E6' },
           ]}
         >
           <Text style={{ fontWeight: 'bold' }}>DETAIL TRANSAKSI</Text>
-          <Pressable
-            onPress={navigateBack}
-            style={{
-              flexDirection: 'row',
-              justifyContent: 'center',
-              alignItems: 'center',
-              paddingHorizontal: 5,
-            }}
-          >
-            <Text
-              style={{ flexShrink: 1, fontWeight: 'bold', color: '#f16b4b' }}
-            >
-              Tutup
-            </Text>
+          <Pressable onPress={navigateBack} style={styles.closeButton}>
+            <Text style={styles.closeButtonText}>Tutup</Text>
           </Pressable>
         </View>
-        <View style={{ padding: 15 }}>
-          <Text style={{ fontWeight: 'bold' }}>Permata - BNI</Text>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginTop: 20,
-            }}
-          >
-            <View style={{ flex: 1.5 }}>
-              <Text style={{ fontWeight: 'bold' }}>- SYIFA SALSABYLA</Text>
-              <Text>03493049304930</Text>
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={{ fontWeight: 'bold' }}>NOMINAL</Text>
-              <Text>Rp10.838</Text>
-            </View>
+        <View style={styles.infoContainer}>
+          <View style={styles.rowCenter}>
+            <Text style={styles.bankText}>
+              {data?.sender_bank?.toUpperCase()}
+            </Text>
+            <Icon name="arrow-right" size={10} style={styles.iconArrow} />
+            <Text style={styles.bankText}>
+              {data?.beneficiary_bank?.toUpperCase()}
+            </Text>
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginTop: 20,
-            }}
-          >
-            <View style={{ flex: 1.5 }}>
-              <Text style={{ fontWeight: 'bold' }}>BERITA TRANSFER</Text>
-              <Text>coba mbanking yey</Text>
-            </View>
-            <View style={{ flex: 1 }}>
-              <Text style={{ fontWeight: 'bold' }}>KODE UNIK</Text>
-              <Text>50</Text>
-            </View>
+          <View style={styles.transactionItem}>
+            <TransactionInfoItem
+              label={`- ${data?.beneficiary_name?.toUpperCase()}`}
+              value={data?.account_number}
+              style={{ flex: 1.5 }}
+            />
+            <TransactionInfoItem
+              label={'NOMINAL'}
+              value={formatCurrency(data?.amount)}
+              style={{ flex: 1 }}
+            />
           </View>
-          <View
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              marginTop: 20,
-            }}
-          >
-            <View style={{ flex: 1 }}>
-              <Text style={{ fontWeight: 'bold' }}>WAKTU DIBUAT</Text>
-              <Text>8 April 2020</Text>
-            </View>
+          <View style={styles.transactionItem}>
+            <TransactionInfoItem
+              label={'BERITA TRANSFER'}
+              value={data?.remark}
+              style={{ flex: 1.5 }}
+            />
+            <TransactionInfoItem
+              label={'KODE UNIK'}
+              value={data?.unique_code}
+              style={{ flex: 1 }}
+            />
+          </View>
+          <View style={styles.transactionItem}>
+            <TransactionInfoItem
+              label={'WAKTU DIBUAT'}
+              value={formatDate(data?.created_at)}
+              style={{ flex: 1 }}
+            />
           </View>
         </View>
       </View>
     </View>
   );
-}
+};
+
+export default TransactionDetail;
