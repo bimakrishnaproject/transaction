@@ -1,12 +1,12 @@
-import React from 'react';
-import { View, Text, Pressable } from 'react-native';
-import { navigateBack } from '../../Navigators/utils';
-import { Icon } from '../../Components';
-import { styles } from './styles';
-import { TransactionDetailProps } from '../../Interface';
-import TransactionInfoItem from './components/TransactionInfoItem';
 import Clipboard from '@react-native-clipboard/clipboard';
+import React from 'react';
+import { Pressable, Text, View } from 'react-native';
+import { Icon } from '../../Components';
+import { TransactionDetailProps } from '../../Interface';
+import { navigateBack } from '../../Navigators/utils';
+import { styles } from '../../Style';
 import { formatCurrency, formatDate } from '../../Utils';
+import { DynamicTransactionInfo } from './components';
 
 const TransactionDetail: React.FC<TransactionDetailProps> = ({ route }) => {
   const { data } = route.params;
@@ -19,11 +19,9 @@ const TransactionDetail: React.FC<TransactionDetailProps> = ({ route }) => {
     <View style={styles.container}>
       <View style={styles.card}>
         <View style={styles.header}>
-          <Text style={styles.transactionIdText}>
-            ID TRANSAKSI: #{data?.id}
-          </Text>
+          <Text style={styles.textBold}>ID TRANSAKSI: #{data?.id}</Text>
           <Pressable onPress={onHandleCopy}>
-            <Icon name="copy" color="#f16b4b" style={styles.icon} />
+            <Icon name="copy" color="#f16b4b" style={styles.smallMarginLeft} />
           </Pressable>
         </View>
         <View
@@ -38,47 +36,28 @@ const TransactionDetail: React.FC<TransactionDetailProps> = ({ route }) => {
             <Text style={styles.closeButtonText}>Tutup</Text>
           </Pressable>
         </View>
-        <View style={styles.infoContainer}>
+        <View style={styles.regularPadding}>
           <View style={styles.rowCenter}>
-            <Text style={styles.bankText}>
+            <Text style={styles.textBold}>
               {data?.sender_bank?.toUpperCase()}
             </Text>
-            <Icon name="arrow-right" size={10} style={styles.iconArrow} />
-            <Text style={styles.bankText}>
+            <Icon name="arrow-right" size={10} style={styles.smallXPadding} />
+            <Text style={styles.textBold}>
               {data?.beneficiary_bank?.toUpperCase()}
             </Text>
           </View>
-          <View style={styles.transactionItem}>
-            <TransactionInfoItem
-              label={`- ${data?.beneficiary_name?.toUpperCase()}`}
-              value={data?.account_number}
-              style={{ flex: 1.5 }}
-            />
-            <TransactionInfoItem
-              label={'NOMINAL'}
-              value={formatCurrency(data?.amount)}
-              style={{ flex: 1 }}
-            />
-          </View>
-          <View style={styles.transactionItem}>
-            <TransactionInfoItem
-              label={'BERITA TRANSFER'}
-              value={data?.remark}
-              style={{ flex: 1.5 }}
-            />
-            <TransactionInfoItem
-              label={'KODE UNIK'}
-              value={data?.unique_code}
-              style={{ flex: 1 }}
-            />
-          </View>
-          <View style={styles.transactionItem}>
-            <TransactionInfoItem
-              label={'WAKTU DIBUAT'}
-              value={formatDate(data?.created_at)}
-              style={{ flex: 1 }}
-            />
-          </View>
+          <DynamicTransactionInfo
+            items={[
+              {
+                label: `- ${data?.beneficiary_name?.toUpperCase()}`,
+                value: data?.account_number,
+              },
+              { label: 'NOMINAL', value: formatCurrency(data?.amount) },
+              { label: 'BERITA TRANSFER', value: data?.remark },
+              { label: 'KODE UNIK', value: data?.unique_code },
+              { label: 'WAKTU DIBUAT', value: formatDate(data?.created_at) },
+            ]}
+          />
         </View>
       </View>
     </View>

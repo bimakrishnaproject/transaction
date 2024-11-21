@@ -1,5 +1,3 @@
-import moment from 'moment';
-
 export const formatCurrency = (amount: number): string => {
   return `Rp${amount.toLocaleString().replace(/,/g, '.')}`;
 };
@@ -29,15 +27,15 @@ export const sortData = (selectedSort: any, data: any) => {
       break;
     case 'new':
       sorted = sorted.sort((a, b) => {
-        const dateA = moment(a.created_at).toDate();
-        const dateB = moment(b.created_at).toDate();
+        const dateA = new Date(a.created_at).getTime();
+        const dateB = new Date(b.created_at).getTime();
         return dateB - dateA;
       });
       break;
     case 'old':
       sorted = sorted.sort((a, b) => {
-        const dateA = moment(a.created_at).toDate();
-        const dateB = moment(b.created_at).toDate();
+        const dateA = new Date(a.created_at).getTime();
+        const dateB = new Date(b.created_at).getTime();
         return dateA - dateB;
       });
       break;
