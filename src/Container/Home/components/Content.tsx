@@ -1,13 +1,14 @@
 import React from 'react';
-import { FlatList } from 'react-native';
+import { ActivityIndicator, FlatList, View } from 'react-native';
 import { TransactionCard } from '../../../Components';
 
 interface ContentProps {
   data: any[];
   onDetail: (data: any) => void;
+  isLoading?: boolean;
 }
 
-const Content: React.FC<ContentProps> = ({ data, onDetail }) => {
+const Content: React.FC<ContentProps> = ({ data, onDetail, isLoading }) => {
   const renderItem = ({ item, index }: any) => {
     return (
       <TransactionCard
@@ -18,6 +19,14 @@ const Content: React.FC<ContentProps> = ({ data, onDetail }) => {
       />
     );
   };
+
+  if (isLoading) {
+    return (
+      <View>
+        <ActivityIndicator />
+      </View>
+    );
+  }
 
   return (
     <FlatList

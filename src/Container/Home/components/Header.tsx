@@ -1,6 +1,7 @@
 import React from 'react';
-import { TextInput, Pressable, Text, View } from 'react-native';
+import { TextInput, Pressable, Text, View, Platform } from 'react-native';
 import { Icon } from '../../../Components';
+import { styles } from '../../../Style';
 
 interface HeaderProps {
   query: string;
@@ -17,18 +18,20 @@ const Header: React.FC<HeaderProps> = ({
 }) => {
   return (
     <View
-      style={{
-        borderRadius: 8,
-        padding: 5,
-        backgroundColor: 'white',
-        elevation: 2,
-        flexDirection: 'row',
-        alignItems: 'center',
-        justifyContent: 'space-between',
-        marginBottom: 10,
-      }}
+      style={[
+        styles.headerWrap,
+        {
+          marginTop: Platform.OS === 'ios' ? 15 : 0,
+          paddingVertical: Platform.OS === 'ios' ? 20 : 5,
+          padding: Platform.OS === 'android' ? 5 : 0,
+        },
+      ]}
     >
-      <Icon name="search" style={{ paddingHorizontal: 5 }} color="#BDBDBD" />
+      <Icon
+        name="search"
+        style={{ paddingHorizontal: Platform.OS === 'ios' ? 10 : 5 }}
+        color="#BDBDBD"
+      />
       <TextInput
         placeholder="Cari nama, bank, atau nominal"
         style={{ flex: 1 }}
@@ -38,19 +41,12 @@ const Header: React.FC<HeaderProps> = ({
       />
       <Pressable
         onPress={onFilter}
-        style={{
-          flexDirection: 'row',
-          justifyContent: 'center',
-          alignItems: 'center',
-          paddingHorizontal: 5,
-        }}
+        style={[styles.rowCenter, styles.smallXPadding, styles.justifyCenter]}
       >
-        <Text style={{ flexShrink: 1, fontWeight: 'bold', color: '#f16b4b' }}>
-          {selectedSort?.name}
-        </Text>
+        <Text style={styles.filterText}>{selectedSort?.name}</Text>
         <Icon
           name="chevron-down"
-          style={{ paddingHorizontal: 5 }}
+          style={styles.smallXPadding}
           color="#f16b4b"
         />
       </Pressable>

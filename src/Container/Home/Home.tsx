@@ -5,6 +5,7 @@ import { useFetchFlipData } from '../../Hooks/useFetchFlipData';
 import { navigate } from '../../Navigators/utils';
 import { sortData } from '../../Utils';
 import { Content, FilterModal, Header } from './components';
+import { styles } from '../../Style';
 
 export default function Home() {
   const { data, isLoading, error } = useFetchFlipData();
@@ -17,10 +18,24 @@ export default function Home() {
 
   useEffect(() => {
     if (data) {
-      const sortedData = sortData(selectedSort, data);
+      const lowercasedQuery = query.toLowerCase();
+      const filtered = data.filter((item) => {
+        const beneficiaryName = item?.beneficiary_name?.toLowerCase() || '';
+        const beneficiaryBank = item?.beneficiary_bank?.toLowerCase() || '';
+        const senderBank = item?.sender_bank?.toLowerCase() || '';
+        const amount = item?.amount?.toString() || '';
+        return (
+          beneficiaryName.includes(lowercasedQuery) ||
+          beneficiaryBank.includes(lowercasedQuery) ||
+          senderBank.includes(lowercasedQuery) ||
+          amount.includes(lowercasedQuery)
+        );
+      });
+
+      const sortedData = sortData(selectedSort, filtered);
       setFilteredData(sortedData);
     }
-  }, [selectedSort, data]);
+  }, [selectedSort, query, data]);
 
   const onChangeModal = (key: string, value: boolean) => {
     setModal((prevState: any) => ({ ...prevState, [key]: value }));
@@ -30,51 +45,28 @@ export default function Home() {
     navigate('TransactionDetailScreen', { data });
   };
 
-  const onHandleSearch = (text: string) => {
-    setQuery(text);
-    setSelectedSort(sort[0]);
-    const lowercasedQuery = text.toLowerCase();
-    const filtered = data.filter((item) => {
-      const beneficiaryName = item?.beneficiary_name?.toLowerCase() || '';
-      const beneficiaryBank = item?.beneficiary_bank?.toLowerCase() || '';
-      const senderBank = item?.sender_bank?.toLowerCase() || '';
-      const amount = item?.amount?.toString() || '';
-
-      return (
-        beneficiaryName.includes(lowercasedQuery) ||
-        beneficiaryBank.includes(lowercasedQuery) ||
-        senderBank.includes(lowercasedQuery) ||
-        amount.includes(lowercasedQuery)
-      );
-    });
-    setFilteredData(filtered);
-  };
-
   return (
-    <View
-      style={[
-        {
-          backgroundColor: '#f5faf8',
-          flex: 1,
-          paddingHorizontal: 10,
-          paddingTop: 10,
-        },
-      ]}
-    >
-      <Header
-        selectedSort={selectedSort}
-        query={query}
-        onSearch={onHandleSearch}
-        onFilter={() => onChangeModal('filter', true)}
-      />
+    <>
+      <View style={[styles.homeWrap]}>
+        <Header
+          selectedSort={selectedSort}
+          query={query}
+          onSearch={(text) => setQuery(text)}
+          onFilter={() => onChangeModal('filter', true)}
+        />
 
-      <Content data={filteredData} onDetail={onDetail} />
-      <FilterModal
-        isVisible={modal?.filter}
-        selectedSort={selectedSort}
-        onSelectSort={setSelectedSort}
-        onClose={() => onChangeModal('filter', false)}
-      />
-    </View>
+        <Content
+          data={filteredData}
+          onDetail={onDetail}
+          isLoading={isLoading}
+        />
+        <FilterModal
+          isVisible={modal?.filter}
+          selectedSort={selectedSort}
+          onSelectSort={setSelectedSort}
+          onClose={() => onChangeModal('filter', false)}
+        />
+      </View>
+    </>
   );
 }

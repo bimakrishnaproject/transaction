@@ -3,6 +3,7 @@ import { Pressable, Text, View } from 'react-native';
 import ReactNativeModal from 'react-native-modal';
 import { sort } from '../../../Constants';
 import { Icon } from '../../../Components';
+import { styles } from '../../../Style';
 
 interface FilterModalProps {
   isVisible: boolean;
@@ -23,13 +24,7 @@ const FilterModal: React.FC<FilterModalProps> = ({
       onBackButtonPress={onClose}
       onBackdropPress={onClose}
     >
-      <View
-        style={{
-          backgroundColor: 'white',
-          borderRadius: 8,
-          paddingHorizontal: 15,
-        }}
-      >
+      <View style={styles.filterModalWrap}>
         {sort?.map((el, i) => (
           <Pressable
             key={i}
@@ -37,18 +32,19 @@ const FilterModal: React.FC<FilterModalProps> = ({
               onSelectSort(el);
               onClose();
             }}
-            style={{
-              flexDirection: 'row',
-              alignItems: 'center',
-              marginTop: 30,
-              marginBottom: i === 4 ? 30 : 0,
-            }}
+            style={[
+              styles.rowCenter,
+              styles.xlargeMarginTop,
+              {
+                marginBottom: i === 4 ? 30 : 0,
+              },
+            ]}
           >
             <Icon
               name={el?.id === selectedSort?.id ? 'radio-active' : 'radio'}
               color="#f16b4b"
             />
-            <Text style={{ marginLeft: 10 }}>{el?.name}</Text>
+            <Text style={styles.smallMarginLeft}>{el?.name}</Text>
           </Pressable>
         ))}
       </View>
